@@ -9,15 +9,7 @@ import {
 import clsx from 'clsx';
 
 import '../styles/tailwind.css';
-
-function Layer({className, ...props}: React.ComponentPropsWithoutRef<'div'>) {
-  return (
-    <div
-      {...props}
-      className={clsx('absolute inset-0 w-full h-full', className)}
-    />
-  );
-}
+import {Layer} from '../components/layer';
 
 // Make sure to 'export default' a React component
 export default function MainTemplate(props: TemplateProps) {
@@ -34,7 +26,7 @@ export default function MainTemplate(props: TemplateProps) {
     {name: 'javascript', className: 'bg-yellow-200', weight: 4},
     {name: 'css', className: 'bg-gray-800', weight: 2}
   ];
-  const items = [
+  const stats = [
     {
       Icon: VscOrganization,
       title: 'Contributors',
@@ -59,15 +51,26 @@ export default function MainTemplate(props: TemplateProps) {
 
   return (
     <>
+      <style>
+        {`
+      * {
+        // outline: solid 1px red;
+      }`}
+      </style>
       <Layer
         className={clsx(
           'bg-white text-gray-500',
-          'px-7 pt-10 pb-8',
-          'grid grid-cols-12 grid-rows-12 gap-0'
+          'px-7 pt-10 pb-8 story:py-storysafe',
+          'grid grid-cols-12 grid-rows-12 gap-x-5'
         )}
       >
-        <header className="col-span-9 row-span-9">
-          <h1 className={clsx('text-3xl tracking-normal text-gray-800')}>
+        <header className="col-span-9 row-span-10 sq:col-span-12 sq:row-span-8">
+          <h1
+            className={clsx(
+              'sq:mt-4',
+              'text-3xl story:text-4xl tracking-normal text-gray-800'
+            )}
+          >
             <span className="">{organization}/</span>
             <span className="font-bold">{repository}</span>
           </h1>
@@ -75,7 +78,7 @@ export default function MainTemplate(props: TemplateProps) {
             <p
               className={clsx(
                 'pt-3',
-                'text-base font-light tracking-wide leading-snug text-gray-500'
+                'text-base story:text-lg font-light tracking-wide leading-snug text-gray-500'
               )}
             >
               {description}
@@ -83,9 +86,17 @@ export default function MainTemplate(props: TemplateProps) {
           )}
         </header>
 
-        <div className={clsx('col-span-3 row-span-10', 'flex flex-col pl-6')}>
-          <div className="rounded-md overflow-hidden">
-            <img className="w-full h-full object-contain" src={logo} />
+        <div
+          className={clsx(
+            'col-span-3 row-span-10 sq:col-span-12 sq:row-span-4 story:row-span-3 sq:order-first',
+            'flex flex-col'
+          )}
+        >
+          <div className="flex-1">
+            <img
+              className="rounded-md sq:rounded-lg overflow-hidden w-full sq:w-auto sq:h-full object-contain"
+              src={logo}
+            />
           </div>
         </div>
 
@@ -96,14 +107,14 @@ export default function MainTemplate(props: TemplateProps) {
             'leading-none'
           )}
         >
-          {items.map(({title, count, Icon}, i) => (
-            <div key={i} className="flex flex-row space-x-1">
+          {stats.map(({title, count, Icon}, i) => (
+            <div key={i} className="flex flex-row space-x-1 sq:space-x-2">
               <div className="flex-grow-0">
-                <Icon className="w-4 h-4 text-gray-500" />
+                <Icon className="w-4 h-4 sq:w-6 sq:h-6 text-gray-500" />
               </div>
               <div className="mt-0.5">
-                <dt className="text-sm text-gray-700">{count}</dt>
-                <dd className="text-xs text-gray-400">{title}</dd>
+                <dt className="text-sm sq:text-base text-gray-700">{count}</dt>
+                <dd className="text-xs sq:text-base text-gray-400">{title}</dd>
               </div>
             </div>
           ))}
@@ -112,7 +123,7 @@ export default function MainTemplate(props: TemplateProps) {
 
       <div
         className={clsx(
-          'absolute bottom-0 left-0 right-0 h-3',
+          'absolute bottom-0 left-0 right-0 h-3 story:h-6',
           'flex flex-row'
         )}
       >

@@ -15,8 +15,8 @@ module.exports = config({
   repository: 'https://github.com/flayyer/flayyer-marketplace-github-cards',
   homepage: 'https://flayyer.com',
   license: 'MIT',
-  keywords: ["flayyer", "github"],
-  sizes: ["BANNER"],
+  keywords: ['flayyer', 'github'],
+  sizes: ['THUMBNAIL', 'BANNER', 'SQUARE', 'STORY'],
   marketplace: true,
   private: false
 });

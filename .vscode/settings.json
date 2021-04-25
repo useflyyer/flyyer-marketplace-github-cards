@@ -1,0 +1,6 @@
+{
+  "editor.codeActionsOnSave": {
+    // TODO: 'xo' compatibility?
+    "source.fixAll.eslint": false
+  },
+}
