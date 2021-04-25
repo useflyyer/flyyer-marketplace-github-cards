@@ -31,7 +31,7 @@ export default function MainTemplate(props: TemplateProps) {
         <img className="w-full h-full object-cover" src={image} />
       </Layer>
       <Layer className="bg-gradient-to-t from-black opacity-0 banner:opacity-60" />
-      <Layer className="flex flex-col justify-center items-center px-4 py-4 text-white text-center">
+      <Layer className="flex flex-col justify-center items-center px-4 py-4 text-white text-center font-main">
         <img src={logo} className="w-26 filter brightness-0 invert" />
         <h1 className="hidden banner:block text-2xl font-extrabold tracking-tight leading-tight mt-1">
           {title}

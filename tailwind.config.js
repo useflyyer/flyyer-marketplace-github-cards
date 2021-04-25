@@ -27,6 +27,9 @@ module.exports = {
    */
   darkMode: 'class',
   theme: {
+    fontFamily: {
+      'main': [`'Arvo'`, 'serif'],
+    },
     extend: {
       spacing: {
         /**
