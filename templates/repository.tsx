@@ -9,44 +9,42 @@ import {
 import clsx from 'clsx';
 
 import '../styles/tailwind.css';
+
 import {Layer} from '../components/layer';
+import {Language} from '../components/language';
+
+type Variables = {
+  owner: string;
+  repo: string;
+  langs: Record<string, number>;
+  avatar: string;
+  description: string;
+  contributors: number;
+  stars: number;
+  forks: number;
+  issues: number;
+};
 
 // Make sure to 'export default' a React component
-export default function MainTemplate(props: TemplateProps) {
+export default function RepositoryTemplate(props: TemplateProps<Variables>) {
   const {width, height, variables} = props;
   const {
-    organization = 'flayyer',
-    repository = 'create-flayyer-app',
-    description = 'Scaffold everything you need to create a https://flayyer.com template | Generate social share images with web technologies',
-    logo = 'https://avatars.githubusercontent.com/u/67559670?s=200&v=4'
+    owner = 'flayyer',
+    repo = 'create-flayyer-app',
+    langs,
+    avatar,
+    description,
+    contributors,
+    stars,
+    forks,
+    issues
   } = variables;
 
-  const langs = [
-    {name: 'typescript', className: 'bg-cyan-800', weight: 6},
-    {name: 'javascript', className: 'bg-yellow-200', weight: 4},
-    {name: 'css', className: 'bg-gray-800', weight: 2}
-  ];
   const stats = [
-    {
-      Icon: VscOrganization,
-      title: 'Contributors',
-      count: 2
-    },
-    {
-      Icon: VscIssues,
-      title: 'Issues',
-      count: 1
-    },
-    {
-      Icon: VscStarEmpty,
-      title: 'Stars',
-      count: 13
-    },
-    {
-      Icon: VscRepoForked,
-      title: 'Forks',
-      count: 0
-    }
+    {Icon: VscOrganization, title: 'Contributors', count: Number(contributors)},
+    {Icon: VscIssues, title: 'Issues', count: Number(issues)},
+    {Icon: VscStarEmpty, title: 'Stars', count: Number(stars)},
+    {Icon: VscRepoForked, title: 'Forks', count: Number(forks)}
   ];
 
   return (
@@ -71,19 +69,18 @@ export default function MainTemplate(props: TemplateProps) {
               'text-3xl story:text-4xl tracking-normal text-gray-800'
             )}
           >
-            <span className="">{organization}/</span>
-            <span className="font-bold">{repository}</span>
+            <span className="">{owner}/</span>
+            <span className="font-bold">{repo}</span>
           </h1>
-          {description && (
-            <p
-              className={clsx(
-                'pt-3',
-                'text-base story:text-lg font-light tracking-wide leading-snug text-gray-500'
-              )}
-            >
-              {description}
-            </p>
-          )}
+
+          <p
+            className={clsx(
+              'pt-3',
+              'text-base story:text-lg font-light tracking-wide leading-snug text-gray-500'
+            )}
+          >
+            {description}
+          </p>
         </header>
 
         <div
@@ -92,12 +89,14 @@ export default function MainTemplate(props: TemplateProps) {
             'flex flex-col'
           )}
         >
-          <div className="flex-1">
-            <img
-              className="rounded-md sq:rounded-lg overflow-hidden w-full sq:w-auto sq:h-full object-contain"
-              src={logo}
-            />
-          </div>
+          {avatar && (
+            <div className="flex-1">
+              <img
+                className="rounded-md sq:rounded-lg overflow-hidden w-full sq:w-auto sq:h-full object-contain"
+                src={avatar}
+              />
+            </div>
+          )}
         </div>
 
         <dl
@@ -113,7 +112,7 @@ export default function MainTemplate(props: TemplateProps) {
                 <Icon className="w-4 h-4 sq:w-6 sq:h-6 text-gray-500" />
               </div>
               <div className="mt-0.5">
-                <dt className="text-sm sq:text-base text-gray-700">{count}</dt>
+                <dt className="text-sm sq:text-base text-gray-700">{isFinite(count) ? count : "-"}</dt>
                 <dd className="text-xs sq:text-base text-gray-400">{title}</dd>
               </div>
             </div>
@@ -127,14 +126,11 @@ export default function MainTemplate(props: TemplateProps) {
           'flex flex-row'
         )}
       >
-        {langs.map((lang) => (
-          <div
-            key={lang.name}
-            style={{flex: lang.weight}}
-            className={lang.className}
-          />
-        ))}
+        {langs ? Object.entries(langs).map(([name, weight]) => (
+          <Language key={name} weight={Number(weight)} name={name} />
+        )) : <Language weight={1} /> }
       </div>
+
     </>
   );
 }

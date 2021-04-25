@@ -3,6 +3,7 @@
     "strict": true,
     "jsx": "react",
     "esModuleInterop": true,
+    "resolveJsonModule": true,
     "allowJs": true,
   },
   "exclude": ["node_modules", ".flayyer-cache", ".flayyer-dev", ".flayyer-dist", ".flayyer-processed"],
