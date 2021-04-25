@@ -112,7 +112,9 @@ export default function RepositoryTemplate(props: TemplateProps<Variables>) {
                 <Icon className="w-4 h-4 sq:w-6 sq:h-6 text-gray-500" />
               </div>
               <div className="mt-0.5">
-                <dt className="text-sm sq:text-base text-gray-700">{isFinite(count) ? count : "-"}</dt>
+                <dt className="text-sm sq:text-base text-gray-700">
+                  {Number.isFinite(count) ? count : '-'}
+                </dt>
                 <dd className="text-xs sq:text-base text-gray-400">{title}</dd>
               </div>
             </div>
@@ -126,11 +128,14 @@ export default function RepositoryTemplate(props: TemplateProps<Variables>) {
           'flex flex-row'
         )}
       >
-        {langs ? Object.entries(langs).map(([name, weight]) => (
-          <Language key={name} weight={Number(weight)} name={name} />
-        )) : <Language weight={1} /> }
+        {langs ? (
+          Object.entries(langs).map(([name, weight]) => (
+            <Language key={name} weight={Number(weight)} name={name} />
+          ))
+        ) : (
+          <Language weight={1} />
+        )}
       </div>
-
     </>
   );
 }
