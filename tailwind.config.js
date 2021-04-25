@@ -1,4 +1,5 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
+const colors = require('tailwindcss/colors');
 
 /**
  * See ./styles/tailwind.css for info about measurements in rem units and the default font-size.
@@ -27,10 +28,11 @@ module.exports = {
    */
   darkMode: 'class',
   theme: {
-    fontFamily: {
-      'main': [`'Arvo'`, 'serif'],
-    },
+    // fontFamily: {
+    //   main: [`'Arvo'`, 'serif']
+    // },
     extend: {
+      colors,
       spacing: {
         /**
          * Instagram stories have a recommended safe-area for content.
@@ -102,8 +104,8 @@ module.exports = {
   },
   plugins: [
     /* Some useful plugins: */
-    // require('@tailwindcss/line-clamp'),
-    // require('@tailwindcss/aspect-ratio'),
-    // require('tailwindcss-textshadow'),
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/aspect-ratio')
+    // Require('tailwindcss-textshadow'),
   ]
 };

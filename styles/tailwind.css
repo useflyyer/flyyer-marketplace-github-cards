@@ -9,5 +9,10 @@
  * The default is 16px but we think 52px is a better value for Flayyer templates. Feel free to try different values.
  */
 html {
-  font-size: 52px;
+  /* Changed from 52px to 36px */
+  font-size: 36px;
+}
+
+* {
+  /* outline: solid 1px red; */
 }
