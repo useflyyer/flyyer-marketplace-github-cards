@@ -10,5 +10,11 @@ module.exports = config({
 
   // Optionals
   name: 'Github Cards',
-  description: 'Created with create-flayyer-app'
+  description:
+    'Replica of new GitHub og:images to show how to use Flayyer to generate images.',
+  repository: 'https://github.com/flayyer/flayyer-marketplace-github-cards',
+  homepage: 'https://flayyer.com',
+  license: 'MIT',
+  marketplace: true,
+  private: false
 });
