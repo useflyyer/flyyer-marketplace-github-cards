@@ -13,24 +13,52 @@ import '../styles/tailwind.css';
 import {Layer} from '../components/layer';
 import {Language} from '../components/language';
 
-type Variables = {
-  owner: string;
-  repo: string;
-  langs: Record<string, number>;
-  avatar: string;
-  description: string;
-  contributors: number;
-  stars: number;
-  forks: number;
-  issues: number;
-};
+import {Variable as V, Validator} from '@flayyer/variables';
+
+/**
+ * Export to enable variables UI on Flayyer.com
+ */
+export const schema = V.Object({
+  owner: V.String({
+    title: 'Owner',
+    description: 'Organization identifier or Username',
+    default: 'flayyer',
+    examples: ['flayyer']
+  }),
+  repo: V.String({
+    title: 'Repository',
+    description: 'Repository identifier',
+    default: 'create-flayyer-app',
+    examples: ['create-flayyer-app']
+  }),
+  avatar: V.Image({
+    title: 'Avatar URL',
+    examples: ['https://avatars.githubusercontent.com/u/67559670']
+  }),
+  langs: V.Optional(
+    V.Dict(V.Integer({description: 'Weight'}), {
+      examples: [{Typescript: 10, JavaScript: 2, CSS: 1}]
+    })
+  ),
+  description: V.Optional(V.String({description: 'Repository description'})),
+  contributors: V.Integer({description: 'Contributors count'}),
+  stars: V.Optional(V.Integer({description: 'Stargazers count'})),
+  forks: V.Optional(V.Integer({description: 'Forks count'})),
+  issues: V.Optional(V.Integer({description: 'Open issues count'}))
+});
+
+const validator = new Validator(schema);
 
 // Make sure to 'export default' a React component
-export default function RepositoryTemplate(props: TemplateProps<Variables>) {
+export default function RepositoryTemplate(props: TemplateProps) {
   const {width, height, variables} = props;
+  if (!validator.validate(variables)) {
+    return null; // TODO: Fallback for invalid.
+  }
+
   const {
-    owner = 'flayyer',
-    repo = 'create-flayyer-app',
+    owner,
+    repo,
     langs,
     avatar,
     description,
@@ -41,20 +69,14 @@ export default function RepositoryTemplate(props: TemplateProps<Variables>) {
   } = variables;
 
   const stats = [
-    {Icon: VscOrganization, title: 'Contributors', count: Number(contributors)},
-    {Icon: VscIssues, title: 'Issues', count: Number(issues)},
-    {Icon: VscStarEmpty, title: 'Stars', count: Number(stars)},
-    {Icon: VscRepoForked, title: 'Forks', count: Number(forks)}
+    {Icon: VscOrganization, title: 'Contributors', count: contributors},
+    {Icon: VscIssues, title: 'Issues', count: issues},
+    {Icon: VscStarEmpty, title: 'Stars', count: stars},
+    {Icon: VscRepoForked, title: 'Forks', count: forks}
   ];
 
   return (
     <>
-      <style>
-        {`
-      * {
-        // outline: solid 1px red;
-      }`}
-      </style>
       <Layer
         className={clsx(
           'bg-white text-gray-500',

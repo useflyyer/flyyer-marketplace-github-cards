@@ -6,22 +6,23 @@
     "start": "flayyer start",
     "build": "flayyer build",
     "deploy": "flayyer deploy",
-    "test": "xo --fix"
+    "format": "xo --fix"
   },
   "dependencies": {
-    "@flayyer/flayyer-types": "^1.9.0",
+    "@flayyer/flayyer-types": "^1.11.0",
+    "@flayyer/variables": "^1.1.2",
     "clsx": "^1.1.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-icons": "^4.2.0"
   },
   "devDependencies": {
-    "@flayyer/cli": "^1.15.0",
+    "@flayyer/cli": "^1.17.1",
     "@fullhuman/postcss-purgecss": "^4.0.3",
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/line-clamp": "^0.2.0",
     "@tailwindcss/postcss7-compat": "^2.1.2",
-    "@types/react": "^17.0.3",
+    "@types/react": "^17.0.4",
     "autoprefixer": "^9",
     "dotenv": "^8.2.0",
     "eslint-config-xo-react": "^0.25.0",
@@ -37,10 +38,12 @@
     "space": 2,
     "extends": "xo-react",
     "rules": {
+      "new-cap": "off",
       "no-unused-vars": "off",
       "react/prop-types": "off",
       "react/no-array-index-key": "off",
-      "react/function-component-definition": "off"
+      "react/function-component-definition": "off",
+      "@typescript-eslint/no-unused-vars": "off"
     }
   }
 }
