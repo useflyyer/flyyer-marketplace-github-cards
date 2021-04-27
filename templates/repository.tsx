@@ -37,14 +37,25 @@ export const schema = V.Object({
   }),
   langs: V.Optional(
     V.Dict(V.Integer({description: 'Weight'}), {
-      examples: [{Typescript: 10, JavaScript: 2, CSS: 1}]
+      examples: [{TypeScript: 10, JavaScript: 2, CSS: 1}]
     })
   ),
-  description: V.Optional(V.String({description: 'Repository description'})),
-  contributors: V.Integer({description: 'Contributors count'}),
-  stars: V.Optional(V.Integer({description: 'Stargazers count'})),
-  forks: V.Optional(V.Integer({description: 'Forks count'})),
-  issues: V.Optional(V.Integer({description: 'Open issues count'}))
+  description: V.Optional(
+    V.String({
+      description: 'Repository description',
+      examples: [
+        'Scaffold everything you need to create a https://flayyer.com template | Generate social share images with web technologies.'
+      ]
+    })
+  ),
+  contributors: V.Integer({description: 'Contributors count', examples: [2]}),
+  stars: V.Optional(
+    V.Integer({description: 'Stargazers count', examples: [12]})
+  ),
+  forks: V.Optional(V.Integer({description: 'Forks count', examples: [1]})),
+  issues: V.Optional(
+    V.Integer({description: 'Open issues count', examples: [0]})
+  )
 });
 
 const validator = new Validator(schema);
