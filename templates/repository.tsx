@@ -52,21 +52,20 @@ const validator = new Validator(schema);
 // Make sure to 'export default' a React component
 export default function RepositoryTemplate(props: TemplateProps) {
   const {width, height, variables} = props;
-  if (!validator.validate(variables)) {
-    return null; // TODO: Fallback for invalid.
-  }
 
   const {
-    owner,
-    repo,
-    langs,
-    avatar,
-    description,
-    contributors,
-    stars,
-    forks,
-    issues
-  } = variables;
+    data: {
+      owner,
+      repo,
+      langs,
+      avatar,
+      description,
+      contributors,
+      stars,
+      forks,
+      issues
+    }
+  } = validator.parse(variables);
 
   const stats = [
     {Icon: VscOrganization, title: 'Contributors', count: contributors},
