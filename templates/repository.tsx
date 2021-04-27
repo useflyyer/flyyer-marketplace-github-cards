@@ -85,6 +85,15 @@ export default function RepositoryTemplate(props: TemplateProps) {
     {Icon: VscRepoForked, title: 'Forks', count: forks}
   ];
 
+  // Just for simplicity, depend on explicit width and height instead of using Tailwind breakpoints.
+  if (width <= 400 && height <= 400) {
+    return (
+      <Layer className="bg-white p-4">
+        <img className="rounded-md w-full h-full object-contain" src={avatar} />
+      </Layer>
+    );
+  }
+
   return (
     <>
       <Layer
@@ -117,17 +126,14 @@ export default function RepositoryTemplate(props: TemplateProps) {
 
         <div
           className={clsx(
-            'col-span-3 row-span-10 sq:col-span-12 sq:row-span-4 story:row-span-3 sq:order-first',
-            'flex flex-col'
+            'col-span-3 row-span-10 sq:col-span-12 sq:row-span-4 story:row-span-3 sq:order-first'
           )}
         >
           {avatar && (
-            <div className="flex-1">
-              <img
-                className="rounded-md sq:rounded-lg overflow-hidden w-full sq:w-auto sq:h-full object-contain"
-                src={avatar}
-              />
-            </div>
+            <img
+              className="inline rounded-md sq:rounded-lg overflow-hidden w-full sq:w-auto sq:h-full object-contain"
+              src={avatar}
+            />
           )}
         </div>
 
