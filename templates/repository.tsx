@@ -20,8 +20,7 @@ import {Variable as V, Validator} from '@flayyer/variables';
  */
 export const schema = V.Object({
   title: V.String({
-    title: 'Owner and repository',
-    description: 'Joined by a slash "/"',
+    description: 'Owner and repo joined by a slash "/"',
     default: 'flayyer/create-flayyer-app',
     examples: ['flayyer/create-flayyer-app']
   }),
