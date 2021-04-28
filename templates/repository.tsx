@@ -24,6 +24,13 @@ export const schema = V.Object({
     default: 'flayyer/create-flayyer-app',
     examples: ['flayyer/create-flayyer-app']
   }),
+  description: V.String({
+    description: 'Repository description',
+    default: '',
+    examples: [
+      'Scaffold everything you need to create a https://flayyer.com template | Generate social share images with web technologies.'
+    ]
+  }),
   avatar: V.Image({
     title: 'Avatar URL',
     examples: ['https://avatars.githubusercontent.com/u/67559670']
@@ -33,14 +40,7 @@ export const schema = V.Object({
       examples: [{TypeScript: 10, JavaScript: 2, CSS: 1}]
     })
   ),
-  description: V.String({
-    description: 'Repository description',
-    default: '',
-    examples: [
-      'Scaffold everything you need to create a https://flayyer.com template | Generate social share images with web technologies.'
-    ]
-  }),
-  contributors: V.Integer({description: 'Contributors count', examples: [2]}),
+  contributors: V.Optional(V.Integer({description: 'Contributors count', examples: [2]})),
   stars: V.Optional(
     V.Integer({description: 'Stargazers count', examples: [12]})
   ),
