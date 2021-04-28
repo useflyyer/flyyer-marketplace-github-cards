@@ -19,17 +19,11 @@ import {Variable as V, Validator} from '@flayyer/variables';
  * Export to enable variables UI on Flayyer.com
  */
 export const schema = V.Object({
-  owner: V.String({
-    title: 'Owner',
-    description: 'Organization identifier or Username',
-    default: 'flayyer',
-    examples: ['flayyer']
-  }),
-  repo: V.String({
-    title: 'Repository',
-    description: 'Repository identifier',
-    default: 'create-flayyer-app',
-    examples: ['create-flayyer-app']
+  title: V.String({
+    title: 'Owner and repository',
+    description: 'Joined by a slash "/"',
+    default: 'flayyer/create-flayyer-app',
+    examples: ['flayyer/create-flayyer-app']
   }),
   avatar: V.Image({
     title: 'Avatar URL',
@@ -40,14 +34,13 @@ export const schema = V.Object({
       examples: [{TypeScript: 10, JavaScript: 2, CSS: 1}]
     })
   ),
-  description: V.Optional(
-    V.String({
-      description: 'Repository description',
-      examples: [
-        'Scaffold everything you need to create a https://flayyer.com template | Generate social share images with web technologies.'
-      ]
-    })
-  ),
+  description: V.String({
+    description: 'Repository description',
+    default: '',
+    examples: [
+      'Scaffold everything you need to create a https://flayyer.com template | Generate social share images with web technologies.'
+    ]
+  }),
   contributors: V.Integer({description: 'Contributors count', examples: [2]}),
   stars: V.Optional(
     V.Integer({description: 'Stargazers count', examples: [12]})
@@ -66,8 +59,7 @@ export default function RepositoryTemplate(props: TemplateProps) {
 
   const {
     data: {
-      owner,
-      repo,
+      title,
       langs,
       avatar,
       description,
@@ -78,6 +70,7 @@ export default function RepositoryTemplate(props: TemplateProps) {
     }
   } = validator.parse(variables);
 
+  const [owner, repo] = (title || '').split('/');
   const stats = [
     {Icon: VscOrganization, title: 'Contributors', count: contributors},
     {Icon: VscIssues, title: 'Issues', count: issues},
@@ -110,7 +103,8 @@ export default function RepositoryTemplate(props: TemplateProps) {
               'text-3xl story:text-4xl tracking-normal text-gray-800'
             )}
           >
-            <span className="">{owner}/</span>
+            <span className="">{owner}</span>
+            {owner && repo && <span>/</span>}
             <span className="font-bold">{repo}</span>
           </h1>
 
