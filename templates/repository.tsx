@@ -1,5 +1,6 @@
 import React from 'react';
-import {TemplateProps} from '@flayyer/flayyer-types';
+import {TemplateProps} from '@flyyer/types';
+import { proxy } from "@flyyer/proxy";
 import {
   VscOrganization,
   VscIssues,
@@ -13,26 +14,27 @@ import '../styles/tailwind.css';
 import {Layer} from '../components/layer';
 import {Language} from '../components/language';
 
-import {Variable as V, Validator} from '@flayyer/variables';
+import {Variable as V, Validator} from '@flyyer/variables';
 
 /**
- * Export to enable variables UI on Flayyer.com
+ * Export to enable variables UI on Flyyer.io
  */
 export const schema = V.Object({
   title: V.String({
     description: 'Owner and repo joined by a slash "/"',
-    default: 'flayyer/create-flayyer-app',
-    examples: ['flayyer/create-flayyer-app']
+    default: 'flyyer/create-flyyer-app',
+    examples: ['flyyer/create-flyyer-app']
   }),
   description: V.String({
     description: 'Repository description',
-    default: '',
+    default: 'Scaffold everything you need to create a https://flyyer.io template.',
     examples: [
-      'Scaffold everything you need to create a https://flayyer.com template | Generate social share images with web technologies.'
+      'Scaffold everything you need to create a https://flyyer.io template | Generate social share images with web technologies.'
     ]
   }),
   avatar: V.Image({
     title: 'Avatar URL',
+    default: 'https://avatars.githubusercontent.com/u/67559670',
     examples: ['https://avatars.githubusercontent.com/u/67559670']
   }),
   langs: V.Optional(
@@ -40,7 +42,9 @@ export const schema = V.Object({
       examples: [{TypeScript: 10, JavaScript: 2, CSS: 1}]
     })
   ),
-  contributors: V.Optional(V.Integer({description: 'Contributors count', examples: [2]})),
+  contributors: V.Optional(
+    V.Integer({description: 'Contributors count', examples: [2]})
+  ),
   stars: V.Optional(
     V.Integer({description: 'Stargazers count', examples: [12]})
   ),
@@ -53,8 +57,7 @@ export const schema = V.Object({
 const validator = new Validator(schema);
 
 // Make sure to 'export default' a React component
-export default function RepositoryTemplate(props: TemplateProps) {
-  const {width, height, variables} = props;
+export default function RepositoryTemplate({width, height, variables, ...props}: TemplateProps & React.ComponentProps<typeof Layer>) {
 
   const {
     data: {
@@ -81,16 +84,16 @@ export default function RepositoryTemplate(props: TemplateProps) {
   if (width <= 400 && height <= 400) {
     return (
       <Layer className="bg-white p-4">
-        <img className="rounded-md w-full h-full object-contain" src={avatar} />
+        <img className="rounded-md w-full h-full object-contain" src={proxy(avatar)} />
       </Layer>
     );
   }
 
   return (
-    <>
+    <Layer {...props}>
       <Layer
         className={clsx(
-          'bg-white text-gray-500',
+          'bg-white text-gray-500 dark:bg-gray-900 dark:text-gray-300',
           'px-7 pt-10 pb-8 story:py-storysafe',
           'grid grid-cols-12 grid-rows-12 gap-x-5'
         )}
@@ -99,7 +102,7 @@ export default function RepositoryTemplate(props: TemplateProps) {
           <h1
             className={clsx(
               'sq:mt-4',
-              'text-3xl story:text-4xl tracking-normal text-gray-800'
+              'text-3xl story:text-4xl tracking-normal text-gray-800 dark:text-gray-100'
             )}
           >
             <span className="">{owner}</span>
@@ -110,7 +113,7 @@ export default function RepositoryTemplate(props: TemplateProps) {
           <p
             className={clsx(
               'pt-3',
-              'text-base story:text-lg font-light tracking-wide leading-snug text-gray-500'
+              'text-base story:text-lg font-light tracking-wide leading-snug text-gray-500 dark:text-gray-400'
             )}
           >
             {description}
@@ -125,7 +128,7 @@ export default function RepositoryTemplate(props: TemplateProps) {
           {avatar && (
             <img
               className="inline rounded-md sq:rounded-lg overflow-hidden w-full sq:w-auto sq:h-full object-contain"
-              src={avatar}
+              src={proxy(avatar)}
             />
           )}
         </div>
@@ -140,10 +143,10 @@ export default function RepositoryTemplate(props: TemplateProps) {
           {stats.map(({title, count, Icon}, i) => (
             <div key={i} className="flex flex-row space-x-1 sq:space-x-2">
               <div className="flex-grow-0">
-                <Icon className="w-4 h-4 sq:w-6 sq:h-6 text-gray-500" />
+                <Icon className="w-4 h-4 sq:w-6 sq:h-6 text-gray-500 dark:text-gray-200" />
               </div>
               <div className="mt-0.5">
-                <dt className="text-sm sq:text-base text-gray-700">
+                <dt className="text-sm sq:text-base text-gray-700 dark:text-gray-100">
                   {Number.isFinite(count) ? count : '-'}
                 </dt>
                 <dd className="text-xs sq:text-base text-gray-400">{title}</dd>
@@ -167,6 +170,6 @@ export default function RepositoryTemplate(props: TemplateProps) {
           <Language weight={1} />
         )}
       </div>
-    </>
+    </Layer>
   );
 }
